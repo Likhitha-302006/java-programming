@@ -1,0 +1,101 @@
+import java.io.*;
+import java.util.*;
+
+interface PerformOperation {
+    boolean check(int a);
+}
+
+class MyMath {
+
+    public static boolean checker(PerformOperation p, int num) {
+        return p.check(num);
+    }
+
+    public static PerformOperation isOdd() {
+        return new PerformOperation() {
+            public boolean check(int n) {
+                return n % 2 != 0;
+            }
+        };
+    }
+
+    public static PerformOperation isPrime() {
+        return new PerformOperation() {
+            public boolean check(int n) {
+
+                if (n < 2) {
+                    return false;
+                }
+
+                for (int i = 2; i <= Math.sqrt(n); i++) {
+                    if (n % i == 0) {
+                        return false;
+                    }
+                }
+
+                return true;
+            }
+        };
+    }
+
+    public static PerformOperation isPalindrome() {
+        return new PerformOperation() {
+            public boolean check(int n) {
+
+                int original = n;
+                int reverse = 0;
+
+                while (n > 0) {
+                    int digit = n % 10;
+                    reverse = reverse * 10 + digit;
+                    n = n / 10;
+                }
+
+                return original == reverse;
+            }
+        };
+    }
+}
+
+public class Solution {
+
+    public static void main(String[] args) {
+
+        Scanner sc = new Scanner(System.in);
+
+        int T = sc.nextInt();
+
+        while (T-- > 0) {
+
+            int condition = sc.nextInt();
+            int number = sc.nextInt();
+
+            if (condition == 1) {
+
+                if (MyMath.checker(MyMath.isOdd(), number)) {
+                    System.out.println("ODD");
+                } else {
+                    System.out.println("EVEN");
+                }
+
+            } else if (condition == 2) {
+
+                if (MyMath.checker(MyMath.isPrime(), number)) {
+                    System.out.println("PRIME");
+                } else {
+                    System.out.println("COMPOSITE");
+                }
+
+            } else if (condition == 3) {
+
+                if (MyMath.checker(MyMath.isPalindrome(), number)) {
+                    System.out.println("PALINDROME");
+                } else {
+                    System.out.println("NOT PALINDROME");
+                }
+            }
+        }
+
+        sc.close();
+    }
+}
